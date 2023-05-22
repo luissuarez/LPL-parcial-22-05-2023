@@ -27,8 +27,25 @@ const updateByPatente = (req, res) => {
         res.status(httpStatusCodes.HTTP_STATUS_CREATED).json({"vehiculo":  vehiculos[indexVehiculo]});
     } else {
         res.status(httpStatusCodes.HTTP_STATUS_NOT_FOUND)
-           .json({ mensaje: `La operación de modicar no pudo ser realizada. El vehiculos con patente ${patente} no fue encontrado`});
+           .json({ mensaje: `La operación de modicar no pudo ser realizada. El vehiculo con patente ${patente} no fue encontrado`});
     }
 }
 
-module.exports = { getAll, getByPatente, updateByPatente}
+const create = (req, res) => {
+    const vehiculoData = req.body;
+    const indexVehiculo = vehiculos.findIndex(v => v.patente == vehiculoData.patente);
+    if (indexVehiculo == -1) {
+        vehiculos.push(vehiculoData);
+        res.status(httpStatusCodes.HTTP_STATUS_CREATED)
+           .json({mensaje: `El vehiculo fue creado correctamente`,
+                  vehiculo: vehiculoData}); 
+  
+    } else {
+        res.status(httpStatusCodes.HTTP_STATUS_BAD_REQUEST)
+           .json({mensaje: `El vehiculo con patente ${vehiculoData.patente} ya existe en la base de datos`});
+    }
+}
+
+
+
+module.exports = { getAll, getByPatente, updateByPatente, create }

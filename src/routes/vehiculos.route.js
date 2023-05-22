@@ -5,6 +5,7 @@ const vehiculosController = require('../controllers/vehiculos.controller');
 router.get('/', vehiculosController.getAll);
 router.get('/:patente', vehiculosController.getByPatente);
 router.put('/:patente', vehiculosController.updateByPatente);
+router.post('/', vehiculosController.create);
 
 
 module.exports = { router };
