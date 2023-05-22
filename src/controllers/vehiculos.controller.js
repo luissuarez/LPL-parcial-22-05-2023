@@ -16,4 +16,19 @@ const getByPatente = (req, res) => {
            .json({ mensaje: `El vehiculos con patente ${patente} no fue encontrado`});    
 }
 
-module.exports = { getAll, getByPatente}
+const updateByPatente = (req, res) => {
+    const patente = req.params.patente
+    const indexVehiculo = vehiculos.findIndex(v => v.patente == patente);
+    if(indexVehiculo != -1) {
+        const vehiculoData = req.body;
+        vehiculos[indexVehiculo].habilitado = (typeof vehiculoData.habilitado !== 'undefined') ? vehiculoData.habilitado : vehiculos[indexVehiculo].habilitado;
+        vehiculos[indexVehiculo].capacidad = (typeof vehiculoData.capacidad !== 'undefined') ? vehiculoData.capacidad : vehiculos[indexVehiculo].capacidad;
+        vehiculos[indexVehiculo].autonomiaKms = (typeof vehiculoData.autonomiaKms !== 'undefined') ? vehiculoData.autonomiaKms : vehiculos[indexVehiculo].autonomiaKms;
+        res.status(httpStatusCodes.HTTP_STATUS_CREATED).json({"vehiculo":  vehiculos[indexVehiculo]});
+    } else {
+        res.status(httpStatusCodes.HTTP_STATUS_NOT_FOUND)
+           .json({ mensaje: `La operación de modicar no pudo ser realizada. El vehiculos con patente ${patente} no fue encontrado`});
+    }
+}
+
+module.exports = { getAll, getByPatente, updateByPatente}
