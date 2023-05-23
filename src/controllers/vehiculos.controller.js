@@ -48,4 +48,4 @@ const create = (req, res) => {
 
 
 
-module.exports = { getAll, getByPatente, updateByPatente, create }
+module.exports = { getAll, getByPatente, updateByPatente, create, vehiculos}
