@@ -36,12 +36,11 @@ const deleteById = (req, res) => {
 
 const create = (req, res) => {
     const reservaData = req.body;
-    //const indexReserva = reservas.findIndex(r => r.id == reservaData.id);
-    
     const vehiculo = vehiculosController.vehiculos.find(v => v.habilitado && v.capacidad >= reservaData.cantPersonas && v.autonomiaKms >= reservaData.distancia);
 
     if (vehiculo) {
-        const reserva = {...reservaData, vehiculo};
+        const id = reservas.map(e => e.id).reduce((e1, e2) => e1 > e2 ? e1 : e2, 0) + 1;
+        const reserva = {id, ...reservaData, vehiculo};
         reservas.push(reserva);
         res.status(httpStatusCodes.HTTP_STATUS_CREATED)
            .json({mensaje: `La reserva fue creada correctamente`,
