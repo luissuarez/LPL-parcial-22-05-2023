@@ -1,5 +1,6 @@
 const vehiculos = require('../../data/vehiculos.json');
 const httpStatusCodes = require('http2').constants;
+const { validationResult } = require("express-validator");
 
 const getAll = (req, res) => {
     res.status(httpStatusCodes.HTTP_STATUS_OK).json(vehiculos);
@@ -7,6 +8,13 @@ const getAll = (req, res) => {
 
 const getByPatente = (req, res) => {
     const patente = req.params.patente
+
+    const errors = validationResult(req);
+    
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ mensaje: errors.array() });
+    }
+
     const vehiculo = vehiculos.find(v => v.patente == patente);
     
     if(vehiculo)
