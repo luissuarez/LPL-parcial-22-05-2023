@@ -2,7 +2,7 @@ const vehiculos = require('../../data/vehiculos.json');
 const httpStatusCodes = require('http2').constants;
 const { validationResult } = require("express-validator");
 
-const getAll = (req, res) => {
+const getAll = (_, res) => {
     res.status(httpStatusCodes.HTTP_STATUS_OK).json(vehiculos);
 }
 
@@ -10,10 +10,9 @@ const getByPatente = (req, res) => {
     const patente = req.params.patente
 
     const errors = validationResult(req);
-    
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ mensaje: errors.array() });
-    }
+
+    if (!errors.isEmpty()) 
+        return res.status(httpStatusCodes.HTTP_STATUS_BAD_REQUEST).json({ mensaje: errors.array() });
 
     const vehiculo = vehiculos.find(v => v.patente == patente);
     
@@ -26,6 +25,11 @@ const getByPatente = (req, res) => {
 
 const updateByPatente = (req, res) => {
     const patente = req.params.patente
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) 
+        return res.status(httpStatusCodes.HTTP_STATUS_BAD_REQUEST).json({ mensaje: errors.array() });
+
     const indexVehiculo = vehiculos.findIndex(v => v.patente == patente);
     if(indexVehiculo != -1) {
         const vehiculoData = req.body;
@@ -41,6 +45,11 @@ const updateByPatente = (req, res) => {
 
 const create = (req, res) => {
     const vehiculoData = req.body;
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) 
+        return res.status(httpStatusCodes.HTTP_STATUS_BAD_REQUEST).json({ mensaje: errors.array() });
+
     const indexVehiculo = vehiculos.findIndex(v => v.patente == vehiculoData.patente);
     if (indexVehiculo == -1) {
         vehiculoData.habilitado = false;
