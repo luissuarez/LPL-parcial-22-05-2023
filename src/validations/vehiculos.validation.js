@@ -33,6 +33,4 @@ const vehiculoBodyValidator = [
 
 ];
 
-
-
 module.exports = { patenteParamValidator, vehiculoBodyValidator };

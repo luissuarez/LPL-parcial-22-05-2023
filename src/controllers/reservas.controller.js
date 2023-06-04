@@ -1,8 +1,9 @@
 const reservas = require('../../data/reservas.json');
 const httpStatusCodes = require('http2').constants;
 const vehiculosController = require('../controllers/vehiculos.controller');
+const { validationResult } = require("express-validator");
 
-const getAll = (req, res) => {
+const getAll = (_, res) => {
     res.status(httpStatusCodes.HTTP_STATUS_OK).json(reservas);
 }
 
@@ -35,6 +36,11 @@ const deleteById = (req, res) => {
 }
 
 const create = (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) 
+        return res.status(httpStatusCodes.HTTP_STATUS_BAD_REQUEST).json({ mensaje: errors.array() });
+
     const reservaData = req.body;
     const vehiculo = vehiculosController.vehiculos.find(v => v.habilitado && v.capacidad >= reservaData.cantPersonas && v.autonomiaKms >= reservaData.distancia);
 
