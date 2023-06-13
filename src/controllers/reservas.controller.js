@@ -3,6 +3,7 @@ const httpStatusCodes = require('http2').constants;
 const vehiculosController = require('../controllers/vehiculos.controller');
 const { validationResult } = require("express-validator");
 
+
 const getAll = (_, res) => {
     res.status(httpStatusCodes.HTTP_STATUS_OK).json(reservas);
 }
@@ -10,7 +11,7 @@ const getAll = (_, res) => {
 const getById = (req, res) => {
     const id = req.params.id;
     const reserva = reservas.find(r => r.id == id);
-    
+      
     if(reserva)
         res.status(httpStatusCodes.HTTP_STATUS_OK).json(reserva); 
     else
