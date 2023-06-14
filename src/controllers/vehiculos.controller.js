@@ -1,7 +1,6 @@
-const vehiculos = require('../../data/vehiculos.json');
 const httpStatusCodes = require('http2').constants;
 const { validationResult } = require("express-validator");
-const VehiculoModel = require('../models/vehiculo.model')
+const VehiculoModel = require('../models/vehiculos.model')
 
 const getAll = async (_, res) => {
     try {
@@ -91,4 +90,4 @@ const create = async (req, res) => {
     }
 }
 
-module.exports = { getAll, getByPatente, updateByPatente, create, vehiculos}
+module.exports = { getAll, getByPatente, updateByPatente, create}

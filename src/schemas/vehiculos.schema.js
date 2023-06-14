@@ -27,11 +27,9 @@ const vehiculoSchema = mongoose.Schema(
             type : Number,
             require : true
         }
-    },{
+    }, {
         timestamps : true
     }
 );
 
-const Vehiculo = mongoose.model('Vehiculo', vehiculoSchema);
-
-module.exports = Vehiculo;
+module.exports = vehiculoSchema;
